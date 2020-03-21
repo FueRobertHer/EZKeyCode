@@ -1,19 +1,13 @@
-let changeColor = document.getElementById('changeColor');
+let key = document.getElementById('key')
+let code = document.getElementById('code')
+let which = document.getElementById('which')
 
-chrome.storage.sync.get('color', function (data) {
-  changeColor.style.backgroundColor = data.color;
-  changeColor.setAttribute('value', data.color);
-});
+const keypress = e => {
+  e.key === ' ' ? key.innerText = '(Space Character)' : key.innerText = e.key
+  which.innerText = e.which
+  code.innerText = e.code
+}
 
-changeColor.onclick = function (element) {
-  let color = element.target.value;
-  chrome.tabs.query({
-    active: true,
-    currentWindow: true
-  }, function (tabs) {
-    chrome.tabs.executeScript(
-      tabs[0].id, {
-        code: 'document.body.style.backgroundColor = "' + color + '";'
-      });
-  });
-};
+document.addEventListener('keydown', (e) => {
+  keypress(e)
+})
